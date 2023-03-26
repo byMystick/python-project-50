@@ -7,7 +7,7 @@ authors = [
 ]
 readme = "README.md"
 packages = [
-{include = "gendiff"},
+	{include = "gendiff"},
 ]
 
 [tool.poetry.dependencies]

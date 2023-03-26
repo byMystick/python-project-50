@@ -15,3 +15,4 @@ lint:
 
 gendiff:
 	poetry run gendiff -h
+
