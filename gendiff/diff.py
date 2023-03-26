@@ -1,27 +1,28 @@
 import json
 
 
-def load_data(file_path):
-    with open(file_path) as f:
-        return json.load(f)
-
-
 def generate_diff(file_path1, file_path2):
-    data1 = load_data(file_path1)
-    data2 = load_data(file_path2)
-    diff_lines = []
-
-    for key, value1 in data1.items():
-        if key in data2:
-            value2 = data2[key]
-            if value1 != value2:
-                diff_lines.append(f"- {key}: {value1}")
-                diff_lines.append(f"+ {key}: {value2}")
-        else:
-            diff_lines.append(f"- {key}: {value1}")
-
-    for key, value2 in data2.items():
+    data1 = json.load(open(file_path1))
+    data2 = json.load(open(file_path2))
+    diff = {}
+    for key in sorted(set(data1.keys()) | set(data2.keys())):
         if key not in data1:
-            diff_lines.append(f"+ {key}: {value2}")
+            diff[f'+ {key}'] = data2[key]
+        elif key not in data2:
+            diff[f'- {key}'] = data1[key]
+        elif data1[key] != data2[key]:
+            diff[f'- {key}'] = data1[key]
+            diff[f'+ {key}'] = data2[key]
+        else:
+            diff[f'  {key}'] = data1[key]
 
-    return "\n".join(["{"] + sorted(diff_lines) + ["}"])
+    result = ['{\n']
+    for key, value in diff.items():
+        if isinstance(value, str):
+            value = f"'{value}'"
+        else:
+            value = str(value)
+        result.append(f'  {key}: {value}\n')
+    result.append('}\n')
+
+    return ''.join(result)
