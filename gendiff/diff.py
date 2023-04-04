@@ -19,9 +19,9 @@ def generate_diff(file_path1, file_path2):
     result = ['{\n']
     for key, value in diff.items():
         if isinstance(value, str):
-            value = f"'{value}'"
+            value = f"{value}"
         else:
-            value = str(value)
+            value = str(value).lower()
         result.append(f'  {key}: {value}\n')
     result.append('}\n')
 
