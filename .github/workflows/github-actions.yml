@@ -15,4 +15,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+<<<<<<< HEAD
       - run: echo "🍏 This job's status is ${{ job.status }}."
+=======
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+>>>>>>> origin/byMystick-patch-1
