@@ -18,3 +18,6 @@ gendiff:
 
 test:
 	pytest
+
+test-coverage:
+	poetry run pytest --cov
