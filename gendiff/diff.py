@@ -2,10 +2,13 @@ import json
 
 
 def generate_diff(file_path1, file_path2):
-    data1 = json.load(open(file_path1))
-    data2 = json.load(open(file_path2))
+    with open(file_path1) as file1, open(file_path2) as file2:
+        data1 = json.load(file1)
+        data2 = json.load(file2)
+
     diff = {}
-    for key in sorted(set(data1.keys()) | set(data2.keys())):
+    keys = set(data1.keys()) | set(data2.keys())
+    for key in sorted(keys):
         if key not in data1:
             diff[f'+ {key}'] = data2[key]
         elif key not in data2:
@@ -18,10 +21,8 @@ def generate_diff(file_path1, file_path2):
 
     result = ['{\n']
     for key, value in diff.items():
-        if isinstance(value, str):
-            value = f"{value}"
-        else:
-            value = str(value).lower()
+        value = str(value)
         result.append(f'  {key}: {value}\n')
     result.append('}\n')
-    return ''.join(result)
+
+    return ''.join(result).lower()
